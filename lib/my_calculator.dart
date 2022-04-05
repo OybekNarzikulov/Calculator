@@ -131,8 +131,9 @@ class _MyCalculatorState extends State<MyCalculator> {
                 )
               ],
             ),
+
             SizedBox(
-              height: 30,
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
