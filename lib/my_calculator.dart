@@ -155,6 +155,7 @@ class _MyCalculatorState extends State<MyCalculator> {
                 calcbutton('x', Colors.amber.shade700, Colors.white),
               ],
             ),
+
             const SizedBox(
               height: 10,
             ),
