@@ -14,7 +14,7 @@ class _MyCalculatorState extends State<MyCalculator> {
   String expression = '';
   double equationFontSize = 50.0;
   double resultFontSize = 70.0;
-
+///Test
   calculation(String buttonText) {
     setState(() {
       if (buttonText == 'AC') {
