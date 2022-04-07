@@ -9,11 +9,12 @@ class MyCalculator extends StatefulWidget {
 }
 
 class _MyCalculatorState extends State<MyCalculator> {
-  String equation = '0';
+  String equation = '';
   String result = '0';
   String expression = '';
   double equationFontSize = 30.0;
   double resultFontSize = 50.0;
+  String prev_button = '';
 
   calculation(String buttonText) {
     setState(() {
@@ -60,8 +61,19 @@ class _MyCalculatorState extends State<MyCalculator> {
       } else {
         if (equation == '0') {
           equation = '';
+        } else if ((buttonText == '+' ||
+                buttonText == '-' ||
+                buttonText == 'x' ||
+                buttonText == '/') &&
+            (prev_button == '+' ||
+                prev_button == '-' ||
+                prev_button == 'x' ||
+                prev_button == '/')) {
+          equation = equation.substring(0, equation.length - 1);
         }
-        equation = equation + buttonText;
+          equation = equation + buttonText;
+          prev_button = buttonText;
+
       }
     });
   }
@@ -104,18 +116,21 @@ class _MyCalculatorState extends State<MyCalculator> {
     );
   }
 
-  Widget rows({required double textSize, required double width}) {
+  Widget rows(
+      {required double textSize,
+      required double widthOfPadding,
+      required String output}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          padding: EdgeInsets.only(right: width),
+          padding: EdgeInsets.only(right: widthOfPadding),
           width: MediaQuery.of(context).size.width * 0.9,
           alignment: Alignment.centerRight,
           child: FittedBox(
             fit: BoxFit.contain,
             child: Text(
-              equation,
+              output,
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Colors.white,
@@ -132,34 +147,40 @@ class _MyCalculatorState extends State<MyCalculator> {
   Widget build(BuildContext context) {
     //Calculator
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black26,
       appBar: AppBar(
         title: Text('Calculator'),
         backgroundColor: Colors.black,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             // Calculator display
-            MediaQuery.of(context).size.width > 600
+            MediaQuery.of(context).orientation == Orientation.landscape
                 ? Column(
                     children: [
-                      rows(textSize: 50, width: 50),
-                      rows(textSize: 60, width: 50),
+                      rows(textSize: 30, widthOfPadding: 50, output: equation),
+                      rows(textSize: 40, widthOfPadding: 50, output: result),
                     ],
                   )
                 : Column(
                     children: [
-                      rows(textSize: equationFontSize, width: 10),
-                      rows(textSize: resultFontSize, width: 10),
+                      rows(
+                          textSize: equationFontSize,
+                          widthOfPadding: 20,
+                          output: equation),
+                      rows(
+                          textSize: resultFontSize,
+                          widthOfPadding: 20,
+                          output: result),
                     ],
                   ),
             const SizedBox(
               height: 30,
             ),
-            MediaQuery.of(context).size.height > 500
+            MediaQuery.of(context).orientation == Orientation.portrait
                 ? Column(
                     children: [
                       Row(
